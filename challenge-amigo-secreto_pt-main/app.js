@@ -1,33 +1,48 @@
-//O principal objetivo deste desafio é fortalecer suas habilidades em lógica de programação. Aqui você deverá desenvolver a lógica para resolver o problema.
 let nomes = [];
+let sorteioRealizado = false;
 
 function adicionarAmigo() {
     const nomeInput = document.getElementById("amigo");
     const nome = nomeInput.value.trim();
-    
-    if (nome === "") {
-        nomeInput.placeholder = "Digite um nome válido!";
-        nomeInput.style.color = "red";
-        nomeInput.style.border = "2px solid red"; // 🔴 Borda vermelha
 
-        setTimeout(() => {
-            nomeInput.placeholder = "Digite um nome";
-            nomeInput.style.color = "black";
-            nomeInput.style.border = "1px solid black"; // ⚫ Volta ao normal
-        }, 2000);
+    // Verifica se o sorteio já foi realizado
+    if (sorteioRealizado) {
+        nomeInput.value = "Você não pode adicionar mais nomes, limpe o sorteio!"; // Altera o texto dentro do input
+        nomeInput.style.color = "red";
+        nomeInput.style.border = "2px solid red";
         
+        setTimeout(() => {
+            nomeInput.value = ""; // Limpa o input completamente
+            nomeInput.style.color = "black";
+            nomeInput.style.border = "1px solid black";
+        }, 4000); // 4 segundos
         return;
     }
 
+    // Verifica se o nome está vazio
+    if (nome === "") {
+        nomeInput.value = "Digite um nome válido!"; // Altera o texto dentro do input
+        nomeInput.style.color = "red";
+        nomeInput.style.border = "2px solid red";
+
+        setTimeout(() => {
+            nomeInput.value = ""; // Limpa o input completamente
+            nomeInput.style.color = "black";
+            nomeInput.style.border = "1px solid black";
+        }, 4000); // 4 segundos
+        return;
+    }
+
+    // Adiciona o nome e limpa o input
     nomes.push(nome);
     nomeInput.value = "";
-    nomeInput.style.border = "1px solid black"; // ⚫ Mantém normal após adicionar
+    nomeInput.style.border = "1px solid black";
     atualizarLista();
 }
 
 function atualizarLista() {
     const listaAmigos = document.getElementById("listaAmigos");
-    listaAmigos.innerHTML = "";
+    listaAmigos.innerHTML = ""; // Limpa a lista antes de adicionar os novos nomes
 
     nomes.forEach((nome) => {
         const li = document.createElement("li");
@@ -50,11 +65,13 @@ function sortearAmigo() {
 
     resultado.innerHTML = `<li style="color: green; font-weight: bold;">🎉 O amigo secreto sorteado é: ${amigoSorteado}! 🎉</li>`;
     
-    botaoLimpar.style.display = "block"; 
+    botaoLimpar.style.display = "block";
+    sorteioRealizado = true; // Marca que o sorteio foi realizado
 }
 
 function limparSorteio() {
     nomes = [];
+    sorteioRealizado = false; // Reseta o estado do sorteio
     document.getElementById("listaAmigos").innerHTML = "";
     document.getElementById("resultado").innerHTML = "";
     document.getElementById("botaoLimpar").style.display = "none";
