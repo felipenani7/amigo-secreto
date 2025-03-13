@@ -7,30 +7,14 @@ function adicionarAmigo() {
 
     // Verifica se o sorteio já foi realizado
     if (sorteioRealizado) {
-        nomeInput.value = "Você não pode adicionar mais nomes, limpe o sorteio!"; // Altera o texto dentro do input
-        nomeInput.style.color = "red";
-        nomeInput.style.border = "2px solid red";
-        
-        setTimeout(() => {
-            nomeInput.value = ""; // Limpa o input completamente
-            nomeInput.style.color = "black";
-            nomeInput.style.border = "1px solid black";
-        }, 4000); // 4 segundos
-        return;
+        exibirMensagemErro(nomeInput, "Você não pode adicionar mais nomes, limpe o sorteio!");
+        return; // Retorna sem adicionar à lista
     }
 
-    // Verifica se o nome está vazio
-    if (nome === "") {
-        nomeInput.value = "Digite um nome válido!"; // Altera o texto dentro do input
-        nomeInput.style.color = "red";
-        nomeInput.style.border = "2px solid red";
-
-        setTimeout(() => {
-            nomeInput.value = ""; // Limpa o input completamente
-            nomeInput.style.color = "black";
-            nomeInput.style.border = "1px solid black";
-        }, 4000); // 4 segundos
-        return;
+    // Verifica se o nome está vazio ou se é uma mensagem de erro
+    if (nome === "" || nome === "Digite um nome válido!" || nome === "Você não pode adicionar mais nomes, limpe o sorteio!") {
+        exibirMensagemErro(nomeInput, "Digite um nome válido!");
+        return; // Retorna sem adicionar à lista
     }
 
     // Adiciona o nome e limpa o input
@@ -38,6 +22,18 @@ function adicionarAmigo() {
     nomeInput.value = "";
     nomeInput.style.border = "1px solid black";
     atualizarLista();
+}
+
+function exibirMensagemErro(input, mensagem) {
+    input.value = mensagem; // Altera o texto dentro do input
+    input.style.color = "red";
+    input.style.border = "2px solid red";
+
+    setTimeout(() => {
+        input.value = ""; // Limpa o input completamente
+        input.style.color = "black";
+        input.style.border = "1px solid black";
+    }, 4000); // 4 segundos
 }
 
 function atualizarLista() {
